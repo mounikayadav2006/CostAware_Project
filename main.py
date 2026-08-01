@@ -741,7 +741,7 @@ print(comp.apply(lambda s: s.map(_fmt)))
 
 # --- Optional: save to CSV & LaTeX for thesis ---
 comp.to_csv("risk_adjusted_ratios_baseline_comparison.csv", float_format="%.6f")
-with open("risk_adjusted_baseline_comparison.tex","w") as f:
+with open("risk_adjusted_baseline_comparison.tex","w", encoding="utf-8") as f:
     f.write(comp.to_latex(float_format="%.6f"))
 print("\n📁 Saved: risk_adjusted_ratios_baseline_comparison.csv")
 print("📁 Saved: risk_adjusted_baseline_comparison.tex")
@@ -749,3 +749,21 @@ print("📁 Saved: risk_adjusted_baseline_comparison.tex")
 ratios_df.to_csv("risk_adjusted_ratios_comparison.csv", float_format="%.6f")
 print("\n📁 Saved: risk_adjusted_ratios_comparison.csv")
 # ==============================================================================================
+
+
+import os
+
+# Create signals folder
+os.makedirs("signals", exist_ok=True)
+
+# Export prediction signals
+signals_df = pd.DataFrame({
+    "Date": filtered_df.index[-len(y_test):],
+    "Actual_Close": target_scaler.inverse_transform(y_test.reshape(-1,1)).flatten(),
+    "Predicted_Close": target_scaler.inverse_transform(model.predict(X_test)).flatten()
+})
+
+signals_df.to_csv("signals/dcwrnn_signals.csv", index=False)
+
+print("✅ Signals exported successfully!")
+print(signals_df.head())
