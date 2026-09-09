@@ -1,0 +1,12 @@
+\begin{table}
+\caption{Phase 1 backtest results: raw vs. realistic-cost vs. buy-and-hold}
+\begin{tabular}{rrrrrrrrrrrrrl}
+\toprule
+cost_bps & slippage_bps & n_days & final_portfolio_value & total_return_pct & annual_return & max_drawdown & annualized_volatility & sharpe & sortino & calmar & omega & win_rate_pct & label \\
+\midrule
+0 & 0 & 301 & 105494.0045 & 5.4940 & 0.0458 & 0.0780 & 0.1230 & 0.4255 & 0.5884 & 0.5870 & 1.0749 & 54.1528 & thesis_simple_zero_cost \\
+10 & 5 & 301 & 98006.2236 & -1.9938 & -0.0167 & 0.0779 & 0.0580 & -0.2620 & -0.3303 & -0.2147 & 0.9418 & 51.1628 & realistic_cost_full_rule \\
+0 & 0 & 301 & 97477.4965 & -2.5225 & -0.0212 & 0.1207 & 0.1229 & -0.1124 & NaN & NaN & NaN & NaN & buy_and_hold \\
+\bottomrule
+\end{tabular}
+\end{table}
