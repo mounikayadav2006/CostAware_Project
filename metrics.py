@@ -61,9 +61,19 @@ def win_rate(returns, positions):
     return 0.0 if len(traded) == 0 else (traded > 0).mean()
 
 
+def turnover(positions):
+    """
+    Average daily turnover: mean absolute change in position size.
+    Higher turnover = more trading activity = more real-world cost.
+    """
+    position_changes = positions.diff().abs()
+    return position_changes.mean()
+
+
 def compute_all_metrics(df, cost_bps, slippage_bps):
     returns = df["Net_Return"].iloc[1:]  # drop row 0 (no signal yet)
     portfolio_values = df["Portfolio_Value"]
+    positions = df["Position"].iloc[1:]
 
     return {
         "cost_bps": cost_bps,
@@ -78,5 +88,6 @@ def compute_all_metrics(df, cost_bps, slippage_bps):
         "sortino": sortino_ratio(returns),
         "calmar": calmar_ratio(returns, portfolio_values),
         "omega": omega_ratio(returns),
-        "win_rate_pct": win_rate(returns, df["Position"].iloc[1:]) * 100,
+        "win_rate_pct": win_rate(returns, positions) * 100,
+        "turnover": turnover(positions),
     }
